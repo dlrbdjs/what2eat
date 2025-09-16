@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: what2eat
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
