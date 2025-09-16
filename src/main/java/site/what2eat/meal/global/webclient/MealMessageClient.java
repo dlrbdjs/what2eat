@@ -15,7 +15,7 @@ import org.springframework.web.client.RestClient;
 @Slf4j
 public class MealMessageClient {
 
-    private final RestClient messageRestClient;
+    private final RestClient mealMessageRestClient;
 
     @Value("${spring.message.endpoint}") String endPoint;
     @Value("${spring.message.callback}") String callback;
@@ -29,7 +29,7 @@ public class MealMessageClient {
         formData.add("dstaddr", dstPhoneNumber);
         formData.add("send_reserve", "0");
 
-        String response = messageRestClient.post()
+        String response = mealMessageRestClient.post()
                 .uri(endPoint)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(formData)

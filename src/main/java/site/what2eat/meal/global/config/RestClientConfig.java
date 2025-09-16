@@ -10,12 +10,10 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
 
-    @Bean
-    public RestClient messageRestClient(
-            RestClient.Builder builder,
+    @Bean(name = "mealMessageRestClient")
+    public RestClient mealMessageRestClient(
             @Value("${spring.message.base-url}") String baseUrl
     ) {
-
         return RestClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8")
