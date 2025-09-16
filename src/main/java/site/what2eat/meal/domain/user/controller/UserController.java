@@ -2,6 +2,7 @@ package site.what2eat.meal.domain.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class UserController {
     @Operation(summary = "전화 번호 추가")
     @PostMapping("/add")
     public CustomResponse<String> addUser(
-            @RequestBody UserReqDto.UserCreateReqDto userCreateReqDto
+            @RequestBody @Valid UserReqDto.UserCreateReqDto userCreateReqDto
     ) {
         userService.addUser(userCreateReqDto);
         return CustomResponse.onSuccess("전화번호 등록 성공");
