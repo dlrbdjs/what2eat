@@ -1,4 +1,4 @@
-package site.what2eat.meal.global.webclient;
+package site.what2eat.meal.global.webclient.mealmessage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

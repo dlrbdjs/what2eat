@@ -36,6 +36,9 @@ dependencies {
 	// MySQL
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
+	// JSOUP
+	implementation 'org.jsoup:jsoup:1.16.1'
+
 }
 
 tasks.named('test') {

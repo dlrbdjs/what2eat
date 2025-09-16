@@ -1,6 +1,7 @@
 package site.what2eat.meal.domain.message.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,5 +20,10 @@ public class MessageController {
     ) {
         messageService.sendMessage(phoneNumber);
         return CustomResponse.onSuccess("메시지 전송 성공");
+    }
+
+    @GetMapping("html")
+    public CustomResponse<String> getHtml() {
+        return CustomResponse.onSuccess(messageService.getHtml());
     }
 }
