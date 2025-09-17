@@ -1,5 +1,7 @@
-name: Deploy to AWS EC2 using Docker Compose
+# workflow
+name: Deploy to AWS EC2 using Docker
 
+# event
 on:
   push:
     branches:
@@ -11,6 +13,7 @@ env:
   EC2_SSH_USER: ubuntu
   PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
   CONTAINER_NAME: what2eat
+
 
 jobs:
   #job1
@@ -52,9 +55,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Create .env file
         run: |
           cat <<EOF > .env
@@ -70,16 +70,7 @@ jobs:
           source: ".env"
           target: "/home/ubuntu/secrets"
 
-      - name: SCP docker-compose.yml to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_SSH_USER }}
-          key: ${{ env.PRIVATE_KEY }}
-          source: "docker-compose.yml"
-          target: "/home/ubuntu/"
-
-      - name: Deploy to EC2 using Docker Compose
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.EC2_HOST }}
@@ -87,31 +78,23 @@ jobs:
           port: 22
           key: ${{ env.PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu
+            CONTAINER_ID=$(sudo docker ps -aq -f name=${{ env.CONTAINER_NAME }})
 
-            # 최신 Spring 이미지 pull
+            if [ ! -z "$CONTAINER_ID" ]; then
+              sudo docker stop $CONTAINER_ID
+              sudo docker rm $CONTAINER_ID
+            fi
+
+            IMAGE_ID=$(sudo docker images -q ${{ env.DOCKER_IMAGE_NAME }})
+
+            if [ ! -z "$IMAGE_ID" ]; then
+              sudo docker rmi $IMAGE_ID
+            fi
+
             sudo docker pull ${{ env.DOCKER_IMAGE_NAME }}
 
-            # Compose up (기존 컨테이너 자동 정리 및 재시작)
-            sudo docker compose --env-file ./secrets/.env up -d
-
-#            CONTAINER_ID=$(sudo docker ps -aq -f name=${{ env.CONTAINER_NAME }})
-#
-#            if [ ! -z "$CONTAINER_ID" ]; then
-#              sudo docker stop $CONTAINER_ID
-#              sudo docker rm $CONTAINER_ID
-#            fi
-#
-#            IMAGE_ID=$(sudo docker images -q ${{ env.DOCKER_IMAGE_NAME }})
-#
-#            if [ ! -z "$IMAGE_ID" ]; then
-#              sudo docker rmi $IMAGE_ID
-#            fi
-#
-#            sudo docker pull ${{ env.DOCKER_IMAGE_NAME }}
-#
-#            sudo docker run --name ${{ env.CONTAINER_NAME }} \
-#              -d \
-#              -p 8080:8080 \
-#              --env-file /home/ubuntu/secrets/.env \
-#              ${{ env.DOCKER_IMAGE_NAME }}
+            sudo docker run --name ${{ env.CONTAINER_NAME }} \
+              -d \
+              -p 8080:8080 \
+              --env-file /home/ubuntu/secrets/.env \
+              ${{ env.DOCKER_IMAGE_NAME }}
