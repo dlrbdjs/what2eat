@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import site.what2eat.meal.domain.message.service.MessageService;
 import site.what2eat.meal.global.apiPayload.CustomResponse;
 
-@RestController
-@RequiredArgsConstructor
+//@RestController
+//@RequiredArgsConstructor
 public class MessageController {
 //    private final MessageService messageService;
 //
