@@ -22,8 +22,9 @@ public class MessageController {
         return CustomResponse.onSuccess("메시지 전송 성공");
     }
 
-    @GetMapping("html")
-    public CustomResponse<String> getHtml() {
-        return CustomResponse.onSuccess(messageService.getHtml());
+    @GetMapping("/meal-test")
+    public CustomResponse<?> getMealPlan() {
+        return CustomResponse.onSuccess(messageService.getMealPlan());
     }
+
 }

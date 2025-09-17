@@ -14,18 +14,9 @@ public class MealPlanFetcher {
 
     private final Connection mealPlanCrawlerJsoupConnection;
 
-    public String fetchHtml(String symd) throws Exception {
+    public Document fetchDocument() throws Exception {
+        // 경기푸른미래관 인증서 이슈
         SslUtil.trustAllSslCertificates();
-        Connection conn = mealPlanCrawlerJsoupConnection.newRequest();
-
-        String queryParam = "?symd=";
-        if (symd != null) {
-            queryParam += symd;
-        }
-        conn.url(mealPlanCrawlerJsoupConnection.request().url() + queryParam);
-
-        Document doc = conn.get();
-
-        return doc.html();
+        return mealPlanCrawlerJsoupConnection.get();
     }
 }
