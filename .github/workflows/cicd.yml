@@ -1,7 +1,5 @@
-# workflow
 name: Deploy to AWS EC2 using Docker
 
-# event
 on:
   push:
     branches:
@@ -14,21 +12,15 @@ env:
   PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
   CONTAINER_NAME: what2eat
 
-
 jobs:
-  #job1
   build-and-push-docker:
-
-    # runner
     runs-on: ubuntu-latest
-
-    # step
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3 # action
+        uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -37,23 +29,23 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew clean build -x test
+
+      - name: Verify JAR exists
+        run: ls -lh build/libs
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag ${{ env.DOCKER_IMAGE_NAME }}:latest
 
-      - name: Login to Docker Hub using Access Token
+      - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       - name: Push the Docker image
         run: docker push ${{ env.DOCKER_IMAGE_NAME }}:latest
 
-  # job2
   deploy-to-ec2:
-
     needs: build-and-push-docker
     runs-on: ubuntu-latest
-
     steps:
       - name: Create .env file
         run: |
