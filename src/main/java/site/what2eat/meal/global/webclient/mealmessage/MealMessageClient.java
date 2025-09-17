@@ -25,6 +25,7 @@ public class MealMessageClient {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("api_key", apiKey);
         formData.add("msg", msg);
+        formData.add("subject", "[경기푸른미래관 식단표]");
         formData.add("callback", callback);
         formData.add("dstaddr", dstPhoneNumber);
         formData.add("send_reserve", "0");

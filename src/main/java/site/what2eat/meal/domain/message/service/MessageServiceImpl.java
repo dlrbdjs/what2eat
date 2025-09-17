@@ -46,8 +46,7 @@ public class MessageServiceImpl implements MessageService {
         String dinner = unboxList(mealPlan.dinner());
 
         String msg =
-                date + " (" + day + ")\n" +
-                        "[경기푸른미래관 식단표]\n\n" +
+                date + " (" + day + ")\n\n" +
                         "(아침)\n" +
                         breakfast + "\n" +
                         "--------------------\n" +
