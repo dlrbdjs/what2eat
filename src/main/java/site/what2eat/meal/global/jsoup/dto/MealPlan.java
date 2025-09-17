@@ -8,7 +8,7 @@ import java.util.List;
 @Builder
 public record MealPlan(
         String day,
-        LocalDate date,
+        String date,
         List<String> breakfast,
         List<String> lunch,
         List<String> dinner

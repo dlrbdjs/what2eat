@@ -36,7 +36,7 @@ public class MealPlanParser {
 
         return MealPlan.builder()
                 .day(day)
-                .date(today)
+                .date(String.valueOf(today))
                 .breakfast(breakfastMenus)
                 .lunch(lunchMenus)
                 .dinner(dinnerMenus)
