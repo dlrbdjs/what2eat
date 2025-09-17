@@ -22,9 +22,9 @@ public class MessageServiceImpl implements MessageService {
     private final MealPlanParser mealPlanParser;
 
     @Override
-    public void sendMessage(String phoneNumber) {
-        MealPlan mealPlan = getMealPlan();
-        String msg = createMsg(mealPlan);
+    public void sendMessage(String msg, String phoneNumber) {
+//        MealPlan mealPlan = getMealPlan();
+//        String msg = createMsg(mealPlan);
 
         mealMessageClient.sendMessage(msg, phoneNumber);
     }
@@ -38,7 +38,8 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    private String createMsg(MealPlan mealPlan) {
+    @Override
+    public String createMsg(MealPlan mealPlan) {
         String day = mealPlan.day();
         String date = mealPlan.date();
         String breakfast = unboxList(mealPlan.breakfast());

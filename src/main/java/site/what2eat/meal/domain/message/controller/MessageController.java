@@ -11,20 +11,18 @@ import site.what2eat.meal.global.apiPayload.CustomResponse;
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
-
-    private final MessageService messageService;
-
-    @PostMapping("/message")
-    public CustomResponse<String> sendMessage(
-            @RequestParam String phoneNumber
-    ) {
-        messageService.sendMessage(phoneNumber);
-        return CustomResponse.onSuccess("메시지 전송 성공");
-    }
-
-    @GetMapping("/meal-test")
-    public CustomResponse<?> getMealPlan() {
-        return CustomResponse.onSuccess(messageService.getMealPlan());
-    }
-
+//    private final MessageService messageService;
+//
+//    @PostMapping("/message")
+//    public CustomResponse<String> sendMessage(
+//            @RequestParam String phoneNumber
+//    ) {
+//        messageService.sendMessage("test", phoneNumber);
+//        return CustomResponse.onSuccess("메시지 전송 성공");
+//    }
+//
+//    @GetMapping("/meal-test")
+//    public CustomResponse<?> getMealPlan() {
+//        return CustomResponse.onSuccess(messageService.getMealPlan());
+//    }
 }
