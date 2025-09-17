@@ -16,7 +16,11 @@ spring:
         format_sql: true # 출력되는 SQL 쿼리를 보기 좋게 포맷팅
 
   message:
-    base-url: 221.139.14.136/APIV2/API
+    base-url: http://221.139.14.136/APIV2/API
     endpoint: /sms_send
     api-key: ${MESSAGE_API_KEY}
     callback: ${MESSAGE_CALL_BACK}
+
+  meal:
+    base-url: https://www.gbfh.co.kr
+    endpoint: /0206/cafeteria/menu/w2/?symd=
