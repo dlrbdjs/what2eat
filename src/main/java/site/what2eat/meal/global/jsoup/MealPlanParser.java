@@ -54,8 +54,10 @@ public class MealPlanParser {
     }
 
     private List<String> getMealPlanList(Element mealPlan) {
+        log.info("getMealPlanList: {}", mealPlan);
+        log.info("getMealPlanList: {}", mealPlan.text());
         // 파싱한 식단표에서 <br>을 기준으로 배열 생성
-        return Arrays.stream(mealPlan.html().split("<br>"))
+        return Arrays.stream(mealPlan.text().split(" "))
                 // 배열의 각각의 요소가 만약에 괄호로 감싸져 있다면 제거
                 .map(menu -> menu.replaceAll(("\\(.*?\\)"), "").trim())
                 // 괄호로 감싸져 있던 문자열들이 ""이 되었으므로 비어있는 ""들을 제거
