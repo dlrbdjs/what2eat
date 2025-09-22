@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>이규엥의 식단표 메시징 서비스</title>
 
-    <!-- Favicon -->
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
     <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192">
     <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
 
-    <!-- Meta -->
-    <meta name="description" content="기숙사 홈페이지 들어가 식단표 보기 너무 귀찮아서 만든, 이규엥표 식단표 문자 서비스. 받으려면… 일단 이규엥을 찾아오세요.">
-    <meta property="og:title" content="What2Eat – 기숙사 식단표 문자 서비스">
-    <meta property="og:description" content="귀찮음을 혁신으로 승화. 받으려면 이규엥을 찾아오세요.">
-    <meta property="og:type" content="website">
+    <meta name="description" content="기숙사 홈페이지 들어가 식단표 보기 너무 귀찮아서 만든, 이규엥표 식단표 문자 서비스. 받으려면… 일단 이규엥을 찾아오세요." />
+    <meta property="og:title" content="What2Eat – 기숙사 식단표 문자 서비스" />
+    <meta property="og:description" content="귀찮음을 혁신으로 승화. 받으려면 이규엥을 찾아오세요." />
+    <meta property="og:type" content="website" />
     <meta name="theme-color" content="#0ea5e9" />
-
     <style>
         :root{
             --bg: radial-gradient(1200px 800px at 10% 10%, #0ea5e922, transparent 60%),
@@ -25,107 +22,65 @@
             linear-gradient(135deg, #0f172a, #020617 60%);
             --card: #0b1220;
             --muted: #94a3b8;
-            --accent: #22d3ee;
             --ring: #22d3ee;
+            --accent: #22d3ee;
         }
-
-        * { box-sizing: border-box; }
-        html, body { height: 100%; }
+        *{box-sizing:border-box}
+        html,body{height:100%}
         body{
-            margin: 0;
-            color: #e2e8f0;
-            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-            Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", sans-serif;
+            margin:0;
+            color:#e2e8f0;
+            font-family: ui-sans-serif, system-ui, -apple-system,
+            Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", sans-serif;
             background: var(--bg);
             background-attachment: fixed;
-            display: flex; align-items: center; justify-content: center;
-            padding: 24px;
-            overflow-x: hidden; /* 모바일 가로 스크롤 방지 */
-            padding-left: max(24px, env(safe-area-inset-left));
-            padding-right: max(24px, env(safe-area-inset-right));
-            padding-top: max(24px, env(safe-area-inset-top));
-            padding-bottom: max(24px, env(safe-area-inset-bottom));
+            padding:24px;
+            overflow-x:hidden;
+            display:block; /* ✅ flex 정렬 제거 */
         }
-
-        .shell{ width: 100%; max-width: 920px }
+        .shell{
+            width:100%;
+            max-width:920px;
+            margin:0 auto; /* ✅ 가로 가운데 정렬 */
+        }
         .glass{
             background: color-mix(in srgb, var(--card) 88%, transparent);
-            border: 1px solid #1f2a44;
+            border:1px solid #1f2a44;
             backdrop-filter: blur(8px) saturate(120%);
             border-radius: 20px; padding: 28px; box-shadow: 0 20px 60px #0006;
             position: relative; overflow: hidden;
         }
-
         .badge{
-            display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px;
-            border-radius: 999px; border: 1px solid #1f2a44; color: var(--muted);
-            background: #0a1222; font-size: 12px; letter-spacing: .2px;
+            display:inline-flex; gap:8px; align-items:center; padding:6px 12px;
+            border-radius:999px; border:1px solid #1f2a44; color:var(--muted);
+            background:#0a1222; font-size:12px; letter-spacing:.2px;
         }
-        .spark{ width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 18px var(--accent); }
+        .spark{ width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 18px var(--accent);}
+        h1{margin:14px 0 6px; font-size:38px; line-height:1.1; letter-spacing:-.02em}
+        .subtitle{color:#cbd5e1; font-size:16px; margin-bottom:20px}
+        .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:24px}
+        @media (max-width: 860px){ .grid{grid-template-columns: 1fr} }
 
-        h1{ margin: 14px 0 6px; font-size: 38px; line-height: 1.1; letter-spacing: -.02em }
-        .subtitle{ color: #cbd5e1; font-size: 16px; margin-bottom: 20px }
+        .card{padding:20px; border:1px solid #1f2a44; border-radius:16px; background:#0a1422}
+        .card h2{font-size:18px; margin:0 0 10px}
+        .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;}
 
-        .grid{ display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px }
-        .card{ padding: 20px; border: 1px solid #1f2a44; border-radius: 16px; background: #0a1422 }
-        .card h2{ font-size: 18px; margin: 0 0 10px }
-        .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+        .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+        .btn{--b:#1f2a44; display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; border:1px solid var(--b); background:#0c1a2e; color:#e2e8f0; text-decoration:none; font-weight:600; box-shadow: inset 0 -2px 0 #0006;}
+        .btn:hover{border-color:#2dd4bf; box-shadow:0 0 0 3px #22d3ee33 inset, 0 8px 24px #0ff2}
 
-        .cta{ display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px }
-        .btn{
-            --b:#1f2a44;
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 12px 16px; border-radius: 12px; border: 1px solid var(--b);
-            background: #0c1a2e; color: #e2e8f0; text-decoration: none; font-weight: 600;
-            box-shadow: inset 0 -2px 0 #0006;
-        }
-        .btn:hover{ border-color:#2dd4bf; box-shadow:0 0 0 3px #22d3ee33 inset, 0 8px 24px #0ff2 }
-
-        .marquee{
-            display:flex; gap:24px; overflow:hidden;
-            border-top:1px dashed #203050; border-bottom:1px dashed #203050;
-            padding:12px 0; margin:10px 0 18px
-        }
-        .marquee .run{
-            display:flex; gap:24px; white-space:nowrap; min-width:100%;
-            animation:scroll 22s linear infinite
-        }
+        .marquee{ display:flex; gap:24px; overflow:hidden; border-top:1px dashed #203050; border-bottom:1px dashed #203050; padding:12px 0; margin:10px 0 18px}
+        .marquee .run{display:flex; gap:24px; white-space:nowrap; animation:scroll 22s linear infinite}
         @keyframes scroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
-        @media (prefers-reduced-motion: reduce){ .marquee .run{ animation:none } }
 
-        .quote{ font-size: 16px; color: #d1d5db; line-height: 1.7 }
-        .quote strong{ color:#a5b4fc }
-        .muted{ color: var(--muted) }
+        .quote{font-size:16px; color:#d1d5db; line-height:1.7}
+        .quote strong{color:#a5b4fc}
+        .muted{color:var(--muted)}
+        .foot{margin-top:22px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:#93c5fd; font-size:12px}
+        .chip{padding:6px 10px; border-radius:999px; background:#071227; border:1px solid #17335f}
 
-        .foot{
-            margin-top:22px; display:flex; justify-content:space-between; align-items:center;
-            gap:12px; color:#93c5fd; font-size:12px; flex-wrap: wrap;
-        }
-        .chip{ padding:6px 10px; border-radius:999px; background:#071227; border:1px solid #17335f }
-
-        .pulse{
-            position:absolute; inset:auto -120px -120px auto; width:280px; height:280px; border-radius:999px;
-            background: radial-gradient(circle at 30% 30%, #22d3ee55, transparent 60%);
-            filter: blur(12px); animation: float 6s ease-in-out infinite
-        }
+        .pulse{position:absolute; inset:auto -120px -120px auto; width:280px; height:280px; border-radius:999px; background: radial-gradient(circle at 30% 30%, #22d3ee55, transparent 60%); filter: blur(12px); animation: float 6s ease-in-out infinite}
         @keyframes float{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
-
-        /* ===================== 모바일 최적화 ===================== */
-        @media (max-width: 860px){
-            .grid{ grid-template-columns: 1fr; }
-        }
-        @media (max-width: 600px){
-            body{ padding: 14px; }
-            .glass{ padding: 18px; border-radius: 16px; }
-            h1{ font-size: 28px; text-align: center; }
-            .subtitle{ font-size: 14px; text-align: center; }
-            .badge{ margin: 0 auto 6px; display:flex; justify-content:center; }
-            .cta .btn{ width: 100%; padding: 12px 14px; font-size: 14px; }
-            .card{ padding: 14px; }
-            .quote{ font-size: 15px; }
-            .marquee{ font-size: 14px; }
-            .foot{ justify-content: center; gap: 8px; text-align: center; }
-        }
     </style>
 </head>
 <body>
@@ -173,7 +128,6 @@
         <div class="pulse" aria-hidden="true"></div>
     </div>
 </div>
-
 <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 </script>
