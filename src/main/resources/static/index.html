@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>What2Eat – 이규엥의 기숙사 식단표 메시징 서비스</title>
+    <meta name="description" content="기숙사 홈페이지 들어가 식단표 보기 너무 귀찮아서 만든, 이규엥표 식단표 문자 서비스. 받으려면… 일단 이규엥을 찾아오세요." />
+    <meta property="og:title" content="What2Eat – 기숙사 식단표 문자 서비스" />
+    <meta property="og:description" content="귀찮음을 혁신으로 승화. 받으려면 이규엥을 찾아오세요." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <style>
+        :root{
+            --bg: radial-gradient(1200px 800px at 10% 10%, #0ea5e922, transparent 60%),
+            radial-gradient(900px 700px at 90% 20%, #22c55e22, transparent 60%),
+            radial-gradient(900px 700px at 10% 90%, #a855f722, transparent 60%),
+            linear-gradient(135deg, #0f172a, #020617 60%);
+            --card: #0b1220;
+            --muted: #94a3b8;
+            --ring: #22d3ee;
+            --accent: #22d3ee;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0; color:#e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system,
+        Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", sans-serif;
+            background: var(--bg);
+            background-attachment: fixed;
+            display:flex; align-items:center; justify-content:center; padding:24px;
+        }
+        .shell{width:100%; max-width:920px}
+        .glass{
+            background: color-mix(in srgb, var(--card) 88%, transparent);
+            border:1px solid #1f2a44;
+            backdrop-filter: blur(8px) saturate(120%);
+            border-radius: 20px; padding: 28px; box-shadow: 0 20px 60px #0006;
+            position: relative; overflow: hidden;
+        }
+        .badge{
+            display:inline-flex; gap:8px; align-items:center; padding:6px 12px;
+            border-radius:999px; border:1px solid #1f2a44; color:var(--muted);
+            background:#0a1222; font-size:12px; letter-spacing:.2px;
+        }
+        .spark{ width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 18px var(--accent);}
+        h1{margin:14px 0 6px; font-size:38px; line-height:1.1; letter-spacing:-.02em}
+        .subtitle{color:#cbd5e1; font-size:16px; margin-bottom:20px}
+        .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:24px}
+        @media (max-width: 860px){ .grid{grid-template-columns: 1fr} }
+
+        .card{padding:20px; border:1px solid #1f2a44; border-radius:16px; background:#0a1422}
+        .card h2{font-size:18px; margin:0 0 10px}
+        .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;}
+
+        .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+        .btn{--b:#1f2a44; display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; border:1px solid var(--b); background:#0c1a2e; color:#e2e8f0; text-decoration:none; font-weight:600; box-shadow: inset 0 -2px 0 #0006;}
+        .btn:hover{border-color:#2dd4bf; box-shadow:0 0 0 3px #22d3ee33 inset, 0 8px 24px #0ff2}
+
+        .marquee{ display:flex; gap:24px; overflow:hidden; border-top:1px dashed #203050; border-bottom:1px dashed #203050; padding:12px 0; margin:10px 0 18px}
+        .marquee .run{display:flex; gap:24px; white-space:nowrap; animation:scroll 22s linear infinite}
+        @keyframes scroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+        .quote{font-size:16px; color:#d1d5db; line-height:1.7}
+        .quote strong{color:#a5b4fc}
+        .muted{color:var(--muted)}
+        .foot{margin-top:22px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:#93c5fd; font-size:12px}
+        .chip{padding:6px 10px; border-radius:999px; background:#071227; border:1px solid #17335f}
+
+        .pulse{position:absolute; inset:auto -120px -120px auto; width:280px; height:280px; border-radius:999px; background: radial-gradient(circle at 30% 30%, #22d3ee55, transparent 60%); filter: blur(12px); animation: float 6s ease-in-out infinite}
+        @keyframes float{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <div class="glass">
+        <div class="badge"><span class="spark"></span> 귀찮음을 혁신으로 변환 중…</div>
+        <h1>What2Eat 🍚 – <span class="muted">이규엥표 식단 문자 서비스</span></h1>
+        <p class="subtitle">기숙사 홈페이지 들어가서 식단표 보는 게 너무 귀찮은 나머지… 결국 만들었습니다. <span class="mono">SMS로 식단이 뿅!</span></p>
+
+        <div class="marquee" aria-hidden="true">
+            <div class="run">
+                <span>아침 • 점심 • 저녁 • 평일 • 주말 • 공휴일 • 밥!! • 🥗 • 🍜 • 🥟 • ☕️ • </span>
+                <span>아침 • 점심 • 저녁 • 평일 • 주말 • 공휴일 • 밥!! • 🥗 • 🍜 • 🥟 • ☕️ • </span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <section class="card">
+                <h2>대놓고 공지</h2>
+                <p class="quote">
+                    이건 <strong>이규엥</strong>이 기숙사 홈페이지 들어가 식단표 보기 <em>너무</em> 귀찮아서 만든
+                    <strong>기숙사 식단표 메시징 서비스</strong>입니다. 문자 수신을 원하신다면… <strong>이규엥을 찾아오세요</strong>.
+                    그러면 <em>추가해줄지 아닐지</em> 잠깐 고민… 해보겠습니다. 감사합니다. (진심 반, 장난 반)
+                </p>
+                <div class="cta">
+                    <a class="btn" href="#" onclick="alert('찾아오세요. 온라인 신청서는 없습니다 😎');return false;">문자 받고 싶다면?</a>
+                    <a class="btn" href="#" onclick="alert('아니, 옆에 있는데 왜 누르는 거냐!!!!!!!!! 읽어라!!!!!!!')">어떻게 동작해요?</a>
+                </div>
+            </section>
+
+            <aside class="card" id="use">
+                <h2>어떻게 작동하냐면…</h2>
+                <ul class="muted" style="margin:0; padding-left:18px; line-height:1.8">
+                    <li>매일 아침 07:00, 오늘의 식단이 문자로 옵니다.</li>
+                    <li>원치 않으면 언제든 <span class="mono">STOP</span> (혹은 이규엥에게 눈치 주기)로 해제.</li>
+                    <li>광고 없음. <em>스팸도 없음.</em> 대신 가끔 드립은 있음.</li>
+                </ul>
+            </aside>
+        </div>
+
+        <div class="foot">
+            <span class="chip">© <span id="y"></span> What2Eat / 이규엥</span>
+            <span class="muted">Made with 엉뚱함, 약간의 집착, 그리고 귀찮음</span>
+        </div>
+        <div class="pulse" aria-hidden="true"></div>
+    </div>
+</div>
+<script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
