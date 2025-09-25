@@ -30,9 +30,9 @@ public class MealPlanParser {
         List<String> lunchMenus = getMealPlanList(lunch);
         List<String> dinnerMenus = getMealPlanList(dinner);
 
-        log.info("breakfastMenus: {}", breakfastMenus);
-        log.info("lunchMenus: {}", lunchMenus);
-        log.info("dinnerMenus: {}", dinnerMenus);
+//        log.info("breakfastMenus: {}", breakfastMenus);
+//        log.info("lunchMenus: {}", lunchMenus);
+//        log.info("dinnerMenus: {}", dinnerMenus);
 
         return MealPlan.builder()
                 .day(day)
@@ -54,9 +54,9 @@ public class MealPlanParser {
     }
 
     private List<String> getMealPlanList(Element mealPlan) {
-        log.info("getMealPlanListElement: {}", mealPlan);
-        log.info("getMealPlanListHtml: {}", mealPlan.html());
-        log.info("getMealPlanListText: {}", mealPlan.text());
+//        log.info("getMealPlanListElement: {}", mealPlan);
+//        log.info("getMealPlanListHtml: {}", mealPlan.html());
+//        log.info("getMealPlanListText: {}", mealPlan.text());
         // 파싱한 식단표에서 <br>을 기준으로 배열 생성
         return Arrays.stream(mealPlan.html().split("<br>"))
                 // 배열의 각각의 요소가 만약에 괄호로 감싸져 있다면 제거
