@@ -19,7 +19,7 @@ public class MessageScheduler {
     private final MessageService messageService;
     private final UserRepository userRepository;
 
-    @Scheduled(cron = "0 0 7 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void sendMealMessage() {
         log.info("모든 유저를 검색합니다.");
         List<User> users = userRepository.findAll();
