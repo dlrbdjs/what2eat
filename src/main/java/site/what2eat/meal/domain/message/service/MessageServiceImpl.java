@@ -23,10 +23,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void sendMessage(String msg, String phoneNumber) {
-//        MealPlan mealPlan = getMealPlan();
-//        String msg = createMsg(mealPlan);
+        MealPlan mealPlan = getMealPlan();
+        String test = createMsg(mealPlan);
+        System.out.println(test);
 
-        mealMessageClient.sendMessage(msg, phoneNumber);
+        mealMessageClient.sendMessage(test, phoneNumber);
     }
 
     @Override

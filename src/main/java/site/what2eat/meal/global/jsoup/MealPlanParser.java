@@ -62,6 +62,10 @@ public class MealPlanParser {
                 // 배열의 각각의 요소가 만약에 괄호로 감싸져 있다면 제거
                 .map(menu -> menu.replaceAll(("\\(.*?\\)"), "").trim())
                 .map(menu -> menu.replaceAll("&amp;", "&").trim())
+                // 한글(가-힣), 숫자(0-9), 공백만 남기기
+                .map(menu -> menu.replaceAll("[^가-힣0-9\\s]", "").trim())
+                // 한글이나 숫자가 하나도 없으면 제외
+                .filter(menu -> menu.matches(".*[가-힣0-9].*"))
                 // 괄호로 감싸져 있던 문자열들이 ""이 되었으므로 비어있는 ""들을 제거
                 .filter(menu -> !menu.isEmpty())
                 // 리스트로 반환
