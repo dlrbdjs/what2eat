@@ -17,7 +17,7 @@ public class MessageController {
 //    public CustomResponse<String> sendMessage(
 //            @RequestParam String phoneNumber
 //    ) {
-//        messageService.sendMessage("test", phoneNumber);
+////        messageService.sendMessage("test", phoneNumber);
 //        return CustomResponse.onSuccess("메시지 전송 성공");
 //    }
 //
