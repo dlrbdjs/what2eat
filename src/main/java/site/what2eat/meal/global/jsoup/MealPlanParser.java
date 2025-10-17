@@ -58,6 +58,9 @@ public class MealPlanParser {
 //        log.info("getMealPlanListHtml: {}", mealPlan.html());
 //        log.info("getMealPlanListText: {}", mealPlan.text());
         // 파싱한 식단표에서 <br>을 기준으로 배열 생성
+        if (mealPlan == null) {
+            return List.of("식단 정보가 없습니다");
+        }
         return Arrays.stream(mealPlan.html().split("<br>"))
                 // 배열의 각각의 요소가 만약에 괄호로 감싸져 있다면 제거
                 .map(menu -> menu.replaceAll(("\\(.*?\\)"), "").trim())
