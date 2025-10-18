@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -17,30 +18,42 @@ import java.util.Locale;
 @Slf4j
 @Service
 public class MealPlanParser {
-    public MealPlan parse(Document doc) {
+    public List<MealPlan> parse(Document doc, int repeat) {
         // 현재 날짜
-        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
-        String day = today.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
+        LocalDate date = LocalDate.now(ZoneId.of("Asia/Seoul"));
         // html에서 검색할 수 있도록 포매팅
 
-        Element breakfast = getMealPlanElement(doc, today, MealType.BREAKFAST);
-        Element lunch = getMealPlanElement(doc, today, MealType.LUNCH);
-        Element dinner = getMealPlanElement(doc, today, MealType.DINNER);
-        List<String> breakfastMenus = getMealPlanList(breakfast);
-        List<String> lunchMenus = getMealPlanList(lunch);
-        List<String> dinnerMenus = getMealPlanList(dinner);
+        List<MealPlan> mealPlans = new ArrayList<>();
+
+        for (int i = 0; i < repeat; i++) {
+
+            String day = date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
+
+            Element breakfast = getMealPlanElement(doc, date, MealType.BREAKFAST);
+            Element lunch = getMealPlanElement(doc, date, MealType.LUNCH);
+            Element dinner = getMealPlanElement(doc, date, MealType.DINNER);
+            List<String> breakfastMenus = getMealPlanList(breakfast);
+            List<String> lunchMenus = getMealPlanList(lunch);
+            List<String> dinnerMenus = getMealPlanList(dinner);
+
+            date = date.plusDays(1);
+
+            mealPlans.add(
+                    MealPlan.builder()
+                            .day(day)
+                            .date(String.valueOf(date))
+                            .breakfast(breakfastMenus)
+                            .lunch(lunchMenus)
+                            .dinner(dinnerMenus)
+                            .build()
+            );
+        }
 
 //        log.info("breakfastMenus: {}", breakfastMenus);
 //        log.info("lunchMenus: {}", lunchMenus);
 //        log.info("dinnerMenus: {}", dinnerMenus);
 
-        return MealPlan.builder()
-                .day(day)
-                .date(String.valueOf(today))
-                .breakfast(breakfastMenus)
-                .lunch(lunchMenus)
-                .dinner(dinnerMenus)
-                .build();
+        return mealPlans;
     }
 
     private Element getMealPlanElement(Document doc, LocalDate date, MealType mealType) {
