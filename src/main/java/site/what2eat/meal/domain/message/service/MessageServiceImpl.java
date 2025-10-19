@@ -71,4 +71,17 @@ public class MessageServiceImpl implements MessageService {
         }
         return menus.toString();
     }
+
+    private String getMsg(String date, String day, String breakfast, String lunch, String dinner) {
+        return date + " (" + day + ")\n\n" +
+                "(아침)\n" +
+                breakfast + "\n" +
+                "--------------------\n" +
+                "(점심)\n" +
+                lunch + "\n" +
+                "--------------------\n" +
+                "(저녁)\n" +
+                dinner + "\n" +
+                "--------------------\n";
+    }
 }
