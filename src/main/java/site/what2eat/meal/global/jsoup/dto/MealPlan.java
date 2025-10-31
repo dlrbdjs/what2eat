@@ -2,7 +2,6 @@ package site.what2eat.meal.global.jsoup.dto;
 
 import lombok.Builder;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Builder

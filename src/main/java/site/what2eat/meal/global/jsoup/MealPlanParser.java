@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -17,15 +18,12 @@ import java.util.Locale;
 @Slf4j
 @Service
 public class MealPlanParser {
-    public MealPlan parse(Document doc) {
-        // 현재 날짜
-        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
-        String day = today.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
-        // html에서 검색할 수 있도록 포매팅
+    public MealPlan parse(Document doc, LocalDate date) {
+        String day = date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
 
-        Element breakfast = getMealPlanElement(doc, today, MealType.BREAKFAST);
-        Element lunch = getMealPlanElement(doc, today, MealType.LUNCH);
-        Element dinner = getMealPlanElement(doc, today, MealType.DINNER);
+        Element breakfast = getMealPlanElement(doc, date, MealType.BREAKFAST);
+        Element lunch = getMealPlanElement(doc, date, MealType.LUNCH);
+        Element dinner = getMealPlanElement(doc, date, MealType.DINNER);
         List<String> breakfastMenus = getMealPlanList(breakfast);
         List<String> lunchMenus = getMealPlanList(lunch);
         List<String> dinnerMenus = getMealPlanList(dinner);
@@ -36,7 +34,7 @@ public class MealPlanParser {
 
         return MealPlan.builder()
                 .day(day)
-                .date(String.valueOf(today))
+                .date(String.valueOf(date))
                 .breakfast(breakfastMenus)
                 .lunch(lunchMenus)
                 .dinner(dinnerMenus)
@@ -58,13 +56,16 @@ public class MealPlanParser {
 //        log.info("getMealPlanListHtml: {}", mealPlan.html());
 //        log.info("getMealPlanListText: {}", mealPlan.text());
         // 파싱한 식단표에서 <br>을 기준으로 배열 생성
+        if (mealPlan == null) {
+            return List.of("식단 정보가 없습니다");
+        }
         return Arrays.stream(mealPlan.html().split("<br>"))
                 // 배열의 각각의 요소가 만약에 괄호로 감싸져 있다면 제거
-                .map(menu -> menu.replaceAll(("\\(.*?\\)"), "").trim())
+                .map(menu -> menu.replaceAll("\\(.*|.*\\)", "").trim())
                 // &amp -> &
                 .map(menu -> menu.replaceAll("&amp;", "&").trim())
-                // 한글(가-힣), 숫자(0-9), 특수문자(&), 공백만 남기기
-                .map(menu -> menu.replaceAll("[^가-힣0-9\\s&]", "").trim())
+                // 한글(가-힣), 숫자(0-9), 특수문자(&, /), 공백만 남기기
+                .map(menu -> menu.replaceAll("[^가-힣0-9\\s&/]", "").trim())
                 // 한글이나 숫자가 하나도 없으면 제외
                 .filter(menu -> menu.matches(".*[가-힣0-9].*"))
                 // 괄호로 감싸져 있던 문자열들이 ""이 되었으므로 비어있는 ""들을 제거
