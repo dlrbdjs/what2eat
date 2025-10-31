@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MessageScheduler {
 
+    private static final int REPEAT_DATE_COUNT = 5;
     private final MessageService messageService;
     private final UserRepository userRepository;
     @Value("${spring.message.callback}") String adminNumber;
@@ -29,12 +30,12 @@ public class MessageScheduler {
 
         log.info("식단표 정보를 요청합니다.");
         try {
-            MealPlan mealPlan = messageService.getMealPlan();
+            List<MealPlan> mealPlans = messageService.getMealPlan(REPEAT_DATE_COUNT);
             log.info("식단표 정보 수신 완료");
-            log.info("식단표 {}\n\n", mealPlan);
+            log.info("식단표 {}\n\n", mealPlans);
 
             log.info("식단표 정보로 메시지를 제작합니다.");
-            String msg = messageService.createMsg(mealPlan);
+            String msg = messageService.createMsg(mealPlans);
             log.info("메시지 제작 완료");
 
             log.info("메시지 발송 시작");
@@ -43,7 +44,7 @@ public class MessageScheduler {
             }
             log.info("메시지 발송 완료");
         } catch (Exception e) {
-            messageService.sendMessage("서버 오류", adminNumber);
+            messageService.sendMessage("서버 오류" + e.getClass(), adminNumber);
             throw e;
         }
     }

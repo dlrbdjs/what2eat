@@ -18,42 +18,27 @@ import java.util.Locale;
 @Slf4j
 @Service
 public class MealPlanParser {
-    public List<MealPlan> parse(Document doc, int repeat) {
-        // 현재 날짜
-        LocalDate date = LocalDate.now(ZoneId.of("Asia/Seoul"));
-        // html에서 검색할 수 있도록 포매팅
+    public MealPlan parse(Document doc, LocalDate date) {
+        String day = date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
 
-        List<MealPlan> mealPlans = new ArrayList<>();
-
-        for (int i = 0; i < repeat; i++) {
-
-            String day = date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
-
-            Element breakfast = getMealPlanElement(doc, date, MealType.BREAKFAST);
-            Element lunch = getMealPlanElement(doc, date, MealType.LUNCH);
-            Element dinner = getMealPlanElement(doc, date, MealType.DINNER);
-            List<String> breakfastMenus = getMealPlanList(breakfast);
-            List<String> lunchMenus = getMealPlanList(lunch);
-            List<String> dinnerMenus = getMealPlanList(dinner);
-
-            date = date.plusDays(1);
-
-            mealPlans.add(
-                    MealPlan.builder()
-                            .day(day)
-                            .date(String.valueOf(date))
-                            .breakfast(breakfastMenus)
-                            .lunch(lunchMenus)
-                            .dinner(dinnerMenus)
-                            .build()
-            );
-        }
+        Element breakfast = getMealPlanElement(doc, date, MealType.BREAKFAST);
+        Element lunch = getMealPlanElement(doc, date, MealType.LUNCH);
+        Element dinner = getMealPlanElement(doc, date, MealType.DINNER);
+        List<String> breakfastMenus = getMealPlanList(breakfast);
+        List<String> lunchMenus = getMealPlanList(lunch);
+        List<String> dinnerMenus = getMealPlanList(dinner);
 
 //        log.info("breakfastMenus: {}", breakfastMenus);
 //        log.info("lunchMenus: {}", lunchMenus);
 //        log.info("dinnerMenus: {}", dinnerMenus);
 
-        return mealPlans;
+        return MealPlan.builder()
+                .day(day)
+                .date(String.valueOf(date))
+                .breakfast(breakfastMenus)
+                .lunch(lunchMenus)
+                .dinner(dinnerMenus)
+                .build();
     }
 
     private Element getMealPlanElement(Document doc, LocalDate date, MealType mealType) {
@@ -76,11 +61,11 @@ public class MealPlanParser {
         }
         return Arrays.stream(mealPlan.html().split("<br>"))
                 // 배열의 각각의 요소가 만약에 괄호로 감싸져 있다면 제거
-                .map(menu -> menu.replaceAll(("\\(.*?\\)"), "").trim())
+                .map(menu -> menu.replaceAll("\\(.*|.*\\)", "").trim())
                 // &amp -> &
                 .map(menu -> menu.replaceAll("&amp;", "&").trim())
-                // 한글(가-힣), 숫자(0-9), 특수문자(&), 공백만 남기기
-                .map(menu -> menu.replaceAll("[^가-힣0-9\\s&]", "").trim())
+                // 한글(가-힣), 숫자(0-9), 특수문자(&, /), 공백만 남기기
+                .map(menu -> menu.replaceAll("[^가-힣0-9\\s&/]", "").trim())
                 // 한글이나 숫자가 하나도 없으면 제외
                 .filter(menu -> menu.matches(".*[가-힣0-9].*"))
                 // 괄호로 감싸져 있던 문자열들이 ""이 되었으므로 비어있는 ""들을 제거
