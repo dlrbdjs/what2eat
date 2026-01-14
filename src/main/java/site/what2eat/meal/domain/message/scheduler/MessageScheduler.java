@@ -22,7 +22,12 @@ public class MessageScheduler {
     private final UserRepository userRepository;
     @Value("${spring.message.callback}") String adminNumber;
 
-    @Scheduled(cron = "0 33 2 * * *")
+    @Scheduled(fixedRate = 1000)
+    public void probe() {
+        log.info("SCHEDULER_PROBE_ALIVE");
+    }
+
+    @Scheduled(cron = "0 56 2 * * *")
     public void sendMealMessage() {
         log.info("모든 유저를 검색합니다.");
         List<User> users = userRepository.findAll();
