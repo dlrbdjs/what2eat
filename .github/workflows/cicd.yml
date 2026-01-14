@@ -25,6 +25,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: gradlew 권한 추가
+        run: chmod +x gradlew
+
       - name: 빌드 (테스트 제외)
         run: ./gradlew clean build -x test
 
