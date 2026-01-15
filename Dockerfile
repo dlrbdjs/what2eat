@@ -7,4 +7,5 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 COPY build/libs/*SNAPSHOT.jar what2eat.jar
 
 # 엔트리포인트 설정
-ENTRYPOINT ["java","-jar","what2eat.jar"]
+#ENTRYPOINT ["java","-jar","what2eat.jar"]
+ENTRYPOINT ["java","-Duser.timezone=Asia/Seoul","-jar","what2eat.jar"]
