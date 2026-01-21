@@ -11,6 +11,7 @@ import site.what2eat.meal.domain.user.repository.UserRepository;
 import site.what2eat.meal.global.jsoup.dto.MealPlan;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -39,13 +40,20 @@ public class MessageScheduler {
             log.info("메시지 제작 완료");
 
             log.info("메시지 발송 시작");
-            for (User user : users) {
-                messageService.sendMessage(msg, user.getPhoneNumber());
-            }
+            messageService.sendMessage(msg, getPhoneNumberList(users));
             log.info("메시지 발송 완료");
         } catch (Exception e) {
-            messageService.sendMessage("서버 오류" + e.getClass(), adminNumber);
+            messageService.sendMessage("서버 오류" + e.getClass() + "\n" + e.getMessage(), adminNumber);
             throw e;
         }
+    }
+
+    private String getPhoneNumberList(List<User> users) {
+        String num = users.stream()
+                .map(User::getPhoneNumber)
+                .collect(Collectors.joining("|"));
+
+        log.info("num = {}", num);
+        return num;
     }
 }

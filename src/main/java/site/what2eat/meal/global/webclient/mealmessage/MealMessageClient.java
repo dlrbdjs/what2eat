@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
+import site.what2eat.meal.global.mail.MailService;
 
 
 @Service
@@ -16,12 +17,14 @@ import org.springframework.web.client.RestClient;
 public class MealMessageClient {
 
     private final RestClient mealMessageRestClient;
+    private final MailService mailService;
 
     @Value("${spring.message.endpoint}") String endPoint;
     @Value("${spring.message.callback}") String callback;
     @Value("${spring.message.api-key}") String apiKey;
+    @Value("${spring.mail.admin}") String adminEmail;
 
-    public String sendMessage(String msg, String dstPhoneNumber) {
+    public void sendMessage(String msg, String dstPhoneNumber) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("api_key", apiKey);
         formData.add("msg", msg);
@@ -39,6 +42,10 @@ public class MealMessageClient {
 
         log.info("Message API Response: {}", response);
 
-        return response;
+        if (response != null && response.contains("185")) {
+            mailService.sendMail(adminEmail, "185 오류 (잔액 부족)", response);
+            throw new RuntimeException("185 오류 (잔액 부족)");
+        }
+
     }
 }
