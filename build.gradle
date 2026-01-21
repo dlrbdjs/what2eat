@@ -38,6 +38,8 @@ dependencies {
 	// JSOUP
 	implementation 'org.jsoup:jsoup:1.16.1'
 
+    // Smtp
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 // jar 파일 하나만 생성하게 하는거
