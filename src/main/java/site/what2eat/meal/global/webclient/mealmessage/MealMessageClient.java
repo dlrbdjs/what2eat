@@ -43,7 +43,7 @@ public class MealMessageClient {
         log.info("Message API Response: {}", response);
 
         if (response != null && response.contains("185")) {
-            mailService.sendMail(adminEmail, "185 오류 (잔액 부족)", response);
+//            mailService.sendMail(adminEmail, "185 오류 (잔액 부족)", response);
             throw new RuntimeException("185 오류 (잔액 부족)");
         }
 
